@@ -1,0 +1,46 @@
+.session-expiry-container {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-size: 400% 400%;
+    padding: 24px;
+    background-color: rgb(245, 243, 243);
+}
+
+
+.session-expiry-card {
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    padding: 48px;
+    max-width: 500px;
+    text-align: center;
+}
+
+.expiry-icon {
+    font-size: 84px;
+    margin-bottom: 24px;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+}
+
+.expiry-title {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    letter-spacing: -0.5px;
+}
+
+.expiry-message {
+    font-size: 16px;
+    margin-bottom: 32px;
+    line-height: 1.6;
+}
+
+.login-link {
+    text-decoration: underline;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
