@@ -23,7 +23,6 @@ const AppRouter = () => {
       <Route path="/session-expired" element={<SessionExpiry />} />
 
       <Route element={<GlobalLayout />}>
-        <Route path="/" element={<Navigate to="/products" replace />} />
         <Route path="/products" element={<ProductDashboard />} />
         <Route path="/inventory" element={<InventoryManager />} />
         <Route path="/suppliers" element={<SupplierManager />} />
