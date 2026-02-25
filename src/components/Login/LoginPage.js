@@ -20,7 +20,7 @@ const LoginPage = (props) => {
       if (user.isFirstTimeLogin) {
         navigate('/reset-password', { state: { userName: user.userName, mode: 'update' } });
       } else {
-        navigate('/products');
+        navigate('/dashboard');
       }
     } catch (e) {
       const errorMsg = e.response?.data?.message || e.response?.data || 'Login failed. Please check your credentials.';

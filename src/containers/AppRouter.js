@@ -12,6 +12,7 @@ import InventoryManager from "../components/Inventory/InventoryManager";
 import SupplierManager from "../components/Suppliers/SupplierManager";
 import PurchaseOrderManager from "../components/PurchaseOrders/PurchaseOrderManager";
 import StockAuditLog from "../components/Audit/StockAuditLog";
+import Dashboard from "../components/Dashboard/Dashboard";
 
 const AppRouter = () => {
   return (
@@ -23,6 +24,7 @@ const AppRouter = () => {
       <Route path="/session-expired" element={<SessionExpiry />} />
 
       <Route element={<GlobalLayout />}>
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/products" element={<ProductDashboard />} />
         <Route path="/inventory" element={<InventoryManager />} />
         <Route path="/suppliers" element={<SupplierManager />} />

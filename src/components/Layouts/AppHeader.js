@@ -9,7 +9,7 @@ import '../../styles/Layouts.css';
 const { Header } = Layout;
 const { Text } = Typography;
 
-const AppHeader = ({ firstName, lastName, email, username, actions }) => {
+const AppHeader = ({ firstName, lastName, email, username, role, actions }) => {
   const initials = `${firstName[0]}${lastName[0]}`.toUpperCase();
   const navigate = useNavigate()
 
@@ -23,6 +23,8 @@ const AppHeader = ({ firstName, lastName, email, username, actions }) => {
           <Text type="secondary" className="header-user-info">{email}</Text>
           <br />
           <Text type="secondary" className="header-user-info">Username: {username}</Text>
+          <br />
+          <Text type="secondary" className="header-user-info">Role: {role}</Text>
         </div>
       ),
       disabled: true,
@@ -64,6 +66,7 @@ const mapStateToProps = (state) => ({
   lastName: state.login.user?.lastName || '',
   email: state.login.user?.email || '',
   username: state.login.user?.userName || '',
+  role: state.login.user?.role || '',
 });
 
 const mapDispatchToProps = (dispatch) => ({

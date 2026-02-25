@@ -91,9 +91,12 @@ const RegisterUser = (props) => {
             rules={[
               {
                 required: true,
-                type: 'email',
                 message: 'Please enter a valid email address!',
               },
+              {
+                pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                message: 'Please enter a valid email address!',
+              }
             ]}
           >
             <Input placeholder="Enter email address" />

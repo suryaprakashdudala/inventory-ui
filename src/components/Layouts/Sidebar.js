@@ -5,7 +5,8 @@ import {
   DatabaseOutlined,
   TeamOutlined,
   HistoryOutlined,
-  ContainerOutlined
+  ContainerOutlined,
+  DashboardOutlined
 } from "@ant-design/icons";
 import { useNavigate, useLocation } from "react-router-dom";
 import '../../styles/Layouts.css';
@@ -17,6 +18,12 @@ const Sidebar = ({ role }) => {
   const location = useLocation();
 
   const menuItems = [
+    {
+      key: '/dashboard',
+      icon: <DashboardOutlined />,
+      label: 'Dashboard',
+      onClick: () => navigate('/dashboard')
+    },
     {
       key: '/products',
       icon: <ShoppingOutlined />,
@@ -44,7 +51,7 @@ const Sidebar = ({ role }) => {
     {
       key: '/audit-log',
       icon: <HistoryOutlined />,
-      label: 'Audit Log',
+      label: 'Stock Audit Report',
       onClick: () => navigate('/audit-log')
     },
     {
@@ -68,7 +75,7 @@ const Sidebar = ({ role }) => {
     if (role === 'ADMIN') return true;
     if (item.key === 'user-management') return false;
     if (role === 'VIEWER') {
-        return ['/products', '/inventory', '/purchase-orders', '/audit-log'].includes(item.key);
+        return ['/dashboard', '/products', '/inventory', '/purchase-orders', '/audit-log'].includes(item.key);
     }
     return true;
   });

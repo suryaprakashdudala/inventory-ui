@@ -75,7 +75,7 @@ const PurchaseOrderManager = ({ actions, products }) => {
     const lowerSearch = searchText.toLowerCase();
     return _.filter(orders, o => {
       const supplierName = suppliers.find(s => s.id === o.supplierId)?.name || 'Unknown';
-      return _.includes(o.id?.toLowerCase(), lowerSearch) ||
+      return _.includes(o.orderNumber?.toLowerCase(), lowerSearch) ||
              _.includes(supplierName.toLowerCase(), lowerSearch) ||
              _.includes(o.status?.toLowerCase(), lowerSearch);
     });
@@ -83,7 +83,7 @@ const PurchaseOrderManager = ({ actions, products }) => {
 
   const handleExport = () => {
     const exportData = filteredOrders.map(o => ({
-      'Order ID': o.id,
+      'Order Number': o.orderNumber || o.id,
       Supplier: suppliers.find(s => s.id === o.supplierId)?.name || 'Unknown',
       Status: o.status,
       Items: o.items.map(i => `${productMap[i.productId]?.name || 'Unknown'} x ${i.quantity}`).join('; ')
@@ -131,7 +131,7 @@ const PurchaseOrderManager = ({ actions, products }) => {
   };
 
   const columns = [
-    { title: 'Order ID', dataIndex: 'id', key: 'id' },
+    { title: 'Order Number', dataIndex: 'orderNumber', key: 'orderNumber', render: (text, record) => text || record.id },
     {
       title: 'Supplier',
       dataIndex: 'supplierId',
@@ -139,7 +139,7 @@ const PurchaseOrderManager = ({ actions, products }) => {
       render: id => suppliers.find(s => s.id === id)?.name || 'Unknown'
     },
     {
-      title: 'Items',
+      title: 'Product Name',
       dataIndex: 'items',
       key: 'items',
       render: items => (
@@ -149,7 +149,27 @@ const PurchaseOrderManager = ({ actions, products }) => {
             dataSource={items}
             renderItem={item => (
               <List.Item>
-                {productMap[item.productId]?.name || 'Unknown'} × {item.quantity}
+                {productMap[item.productId]?.name || 'Unknown'}
+              </List.Item>
+            )}
+          />
+        ) : (
+          <span style={{ color: '#999', fontStyle: 'italic' }}>No items</span>
+        )
+      )
+    },
+    {
+      title: 'Quantity',
+      dataIndex: 'items',
+      key: 'items',
+      render: items => (
+        items && items.length > 0 ? (
+          <List
+            size="small"
+            dataSource={items}
+            renderItem={item => (
+              <List.Item>
+                {item.quantity}
               </List.Item>
             )}
           />

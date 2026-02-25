@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { Table, Button, Modal, Form, Input, Space, message, Select } from 'antd';
+import { Table, Button, Modal, Form, Input, Space, message, Select, Row, Col } from 'antd';
+import { isValidPhoneNumber } from 'libphonenumber-js';
 import { PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined, DownloadOutlined } from '@ant-design/icons';
 import { exportToCSV } from '../../utils/exportUtils';
 import { getAllSuppliers, addSupplier, updateSupplier, deleteSupplier } from '../../actions/suppliers';
@@ -21,6 +22,7 @@ const SupplierManager = (props) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [editingSupplier, setEditingSupplier] = useState(null);
     const [searchText, setSearchText] = useState('');
+    const [countryCode, setCountryCode] = useState('IN');
     const [form] = Form.useForm();
 
     const fetchSuppliers = useCallback(async () => {
@@ -58,8 +60,10 @@ const SupplierManager = (props) => {
         setEditingSupplier(supplier);
         if (supplier) {
             form.setFieldsValue(supplier);
+            setCountryCode('IN'); 
         } else {
             form.resetFields();
+            setCountryCode('IN');
         }
         setIsModalVisible(true);
     };
@@ -169,18 +173,48 @@ const SupplierManager = (props) => {
                     <Form.Item name="name" label="Supplier Name" rules={[{ required: true, message: 'Please input supplier name!' }]}>
                         <Input />
                     </Form.Item>
-                    <Form.Item name="email" label="Email" rules={[{ required: true, type: 'email', message: 'Please input a valid email!' }]}>
+                    <Form.Item name="email" label="Email" rules={[
+                        { required: true, message: 'Please input a valid email!' },
+                        { pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, message: 'Please enter a valid email address!' }
+                    ]}>
                         <Input />
                     </Form.Item>
-                    <Form.Item 
-                        name="phone" 
-                        label="Phone" 
-                        rules={[
-                            { required: true, message: 'Please input phone number!' },
-                            { pattern: /^\+?[0-9\s-]{10,}$/, message: 'Please input a valid phone number (min 10 digits)!' }
-                        ]}
-                    >
-                        <Input />
+                    <Form.Item label="Phone">
+                        <Space.Compact style={{ width: '100%' }}>
+                            <Select 
+                                value={countryCode} 
+                                onChange={setCountryCode} 
+                                style={{ width: '30%' }}
+                            >
+                                <Option value="IN">🇮🇳 +91</Option>
+                                <Option value="US">🇺🇸 +1</Option>
+                                <Option value="GB">🇬🇧 +44</Option>
+                                <Option value="CA">🇨🇦 +1</Option>
+                                <Option value="AU">🇦🇺 +61</Option>
+                                <Option value="DE">🇩🇪 +49</Option>
+                                <Option value="FR">🇫🇷 +33</Option>
+                                <Option value="JP">🇯🇵 +81</Option>
+                                <Option value="CN">🇨🇳 +86</Option>
+                            </Select>
+                            <Form.Item
+                                name="phone"
+                                noStyle
+                                rules={[
+                                    { required: true, message: 'Please input phone number!' },
+                                    {
+                                        validator: (_, value) => {
+                                            if (!value) return Promise.resolve();
+                                            if (isValidPhoneNumber(value, countryCode)) {
+                                                return Promise.resolve();
+                                            }
+                                            return Promise.reject(new Error(`Please enter a valid phone number for ${countryCode}`));
+                                        }
+                                    }
+                                ]}
+                            >
+                                <Input style={{ width: '70%' }} placeholder="Phone number" />
+                            </Form.Item>
+                        </Space.Compact>
                     </Form.Item>
                     <Form.Item name="address" label="Address">
                         <Input.TextArea />

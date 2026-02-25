@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Table, Card, Tag, Button, Input } from "antd";
+import { useState } from 'react';
+import { Table, Card, Tag, Input } from "antd";
 import { SearchOutlined } from '@ant-design/icons';
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";

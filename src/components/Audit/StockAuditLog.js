@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Table, Tag, Space, message, Select, Input, Button } from 'antd';
 import { SearchOutlined, DownloadOutlined } from '@ant-design/icons';
 import { exportToCSV } from '../../utils/exportUtils';
@@ -15,21 +15,11 @@ const StockAuditLog = (props) => {
     const { actions, products } = props
     const [history, setHistory] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [selectedProduct, setSelectedProduct] = useState('ALL');
     const [searchText, setSearchText] = useState('');
 
     useEffect(() => {
-        // fetchProducts();
         fetchHistory('ALL');
     }, []);
-
-    const fetchProducts = async () => {
-        try {
-            await actions.getAllProducts();
-        } catch (error) {
-            message.error('Failed to fetch products');
-        }
-    };
 
     const fetchHistory = async (productId) => {
         setLoading(true);
@@ -46,7 +36,6 @@ const StockAuditLog = (props) => {
     };
 
     const handleProductChange = (value) => {
-        setSelectedProduct(value);
         fetchHistory(value);
     };
 
